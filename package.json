@@ -1,0 +1,14 @@
+{
+  "name": "elm",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "elm-live src/Main.elm -u -p 3000",
+    "build": "elm make src/Main.elm --output public/elm.js",
+    "serve": "serve public/ -s -p 3000"
+  },
+  "devDependencies": {
+    "elm": "0.19.1-5",
+    "elm-live": "4.0.2",
+    "serve": "^13.0.2"
+  }
+}
