@@ -1,44 +1,19 @@
 module Page.About exposing (..)
 
-import Browser
-import Element exposing (Element, column, el, fill, link, padding, rgb255, row, spacing, text, width)
-import Element.Background as Background
-import Element.Border as Border
-import Element.Font as Font
-import Html exposing (Html)
+import Element exposing (Element, centerX, el, fill, maximum, paragraph, spacing, text, width)
 
 
-myView : Html msg
-myView =
-    Element.layout []
-        myRowOfStuff
-
-
-myRowOfStuff : Element msg
-myRowOfStuff =
-    column []
-        [ row [ width fill, spacing 30 ]
-            [ link [] { url = "/", label = text "home" }
-            , link [] { url = "/about", label = text "about" }
-            ]
-        , el [] (text "About")
-        ]
-
-
-myElement : Element msg
-myElement =
+content : Element msg
+content =
     el
-        [ Background.color (rgb255 240 0 245)
-        , Font.color (rgb255 255 255 255)
-        , Border.rounded 3
-        , padding 30
+        [ spacing 30
+        , centerX
         ]
-        (text "stylish!")
+        (paragraph [] [ text "About aslkdjhalks asklksd dksadas dasoidapois udapos iudapos udaposd iuaposdi uapsodiu aposidu aposid uaposd uapos iduaposiudpoai supodu asoi uaposi uaod iud" ])
 
 
-view : Browser.Document msg
+view : { title : String, content : Element msg }
 view =
     { title = "About"
-    , body =
-        [ myView ]
+    , content = content
     }

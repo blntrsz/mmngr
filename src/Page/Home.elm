@@ -1,27 +1,20 @@
 module Page.Home exposing (..)
 
-import Browser
-import Element exposing (Element, column, el, fill, link, padding, rgb255, row, spacing, text, width)
+import Design exposing (button)
+import Element exposing (Element, column, el, padding, rgb255, text)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Html exposing (Html)
-
-
-myView : Html msg
-myView =
-    Element.layout []
-        myRowOfStuff
 
 
 myRowOfStuff : Element msg
 myRowOfStuff =
     column []
-        [ row [ width fill, spacing 30 ]
-            [ link [] { url = "/", label = text "home" }
-            , link [] { url = "/about", label = text "about" }
-            ]
-        , el [] (text "Home")
+        [ el [] (text "Home")
+        , button []
+            { label = text "button"
+            , onPress = Maybe.Nothing
+            }
         ]
 
 
@@ -36,9 +29,9 @@ myElement =
         (text "stylish!")
 
 
-view : Browser.Document msg
+view : { title : String, content : Element msg }
 view =
     { title = "home"
-    , body =
-        [ myView ]
+    , content =
+        myRowOfStuff
     }

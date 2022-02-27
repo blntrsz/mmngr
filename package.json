@@ -1,14 +1,16 @@
 {
-  "name": "elm",
+  "name": "mmngr",
   "version": "1.0.0",
   "scripts": {
-    "dev": "elm-live src/Main.elm -u -p 3000",
-    "build": "elm make src/Main.elm --output public/elm.js",
-    "serve": "serve public/ -s -p 3000"
+    "dev": "elm-live src/Main.elm --dir=./public -u -p 3000",
+    "build": "elm make src/Main.elm --output public/elm.js --optimize",
+    "serve": "serve public/ -s -p 3000",
+    "minimize": "uglifyjs public/elm.js --compress 'pure_funcs=[F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9],pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle --output public/elm.js"
   },
   "devDependencies": {
     "elm": "0.19.1-5",
     "elm-live": "4.0.2",
-    "serve": "^13.0.2"
+    "serve": "^13.0.2",
+    "uglify-js": "^3.15.2"
   }
 }

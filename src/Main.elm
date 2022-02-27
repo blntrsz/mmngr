@@ -1,11 +1,24 @@
-module Main exposing (..)
+port module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav exposing (Key)
 import Dict exposing (update)
+import Page
 import Page.About as About
 import Page.Home as Home
 import Url
+
+
+
+-- PORTS
+
+
+port onResize : (Page.Flags -> msg) -> Sub msg
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    onResize Resize
 
 
 
@@ -15,6 +28,7 @@ import Url
 type alias Model =
     { key : Nav.Key
     , url : Url.Url
+    , flags : Page.Flags
     }
 
 
@@ -25,11 +39,12 @@ type alias Model =
 type Msg
     = ClickedLink Browser.UrlRequest
     | ChangedUrl Url.Url
+    | Resize Page.Flags
 
 
-init : flags -> Url.Url -> Key -> ( Model, Cmd msg )
-init _ url key =
-    ( Model key url, Cmd.none )
+init : Page.Flags -> Url.Url -> Key -> ( Model, Cmd msg )
+init flags url key =
+    ( Model key url flags, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd a )
@@ -48,6 +63,9 @@ update msg model =
             , Cmd.none
             )
 
+        Resize { x, y } ->
+            ( { model | flags = { x = x, y = y } }, Cmd.none )
+
 
 
 -- VIEW
@@ -57,26 +75,26 @@ view : Model -> Browser.Document msg
 view model =
     case model.url.path of
         "/" ->
-            Home.view
+            Page.view model.flags Home.view
 
         "/about" ->
-            About.view
+            Page.view model.flags About.view
 
         _ ->
-            Home.view
+            Page.view model.flags Home.view
 
 
 
 -- MAIN
 
 
-main : Program () Model Msg
+main : Program Page.Flags Model Msg
 main =
     Browser.application
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         , onUrlChange = ChangedUrl
         , onUrlRequest = ClickedLink
         }
